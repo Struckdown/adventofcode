@@ -1,6 +1,6 @@
 # Day 6
 
-# Takes in an array of size 4, returns true if no matches
+# Takes in an array, returns true if no characters match each other
 def checkForMatches(input):
 	anyMatches = False
 	k = 0
