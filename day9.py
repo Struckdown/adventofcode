@@ -15,16 +15,16 @@ class Knot():
 			self.child.propogateMovement(self.pos)
 		else:
 			if movesToMatch(self.pos, self.parent.pos) >= 2:
-				if self.child:
-					self.child.propogateMovement(self.pos)
 				bestMove = self.getBestMove()
 				self.pos[0] += bestMove[0]
 				self.pos[1] += bestMove[1]
 
-				if self.id == 2:
-
+				if self.id == 10:
 					if not(self.pos.copy() in self.visitedPos):
 						self.visitedPos.append(self.pos.copy())
+
+				if self.child:
+					self.child.propogateMovement(self.pos)
 
 
 	def addKnot(self, newKnot):
@@ -75,7 +75,7 @@ class Knot():
 
 ropeHead = Knot()
 curKnot = ropeHead
-ROPELENGTH = 2		# knots, including head
+ROPELENGTH = 10		# knots, including head
 for i in range(ROPELENGTH-1):
 	newKnot = Knot()
 	curKnot.addKnot(newKnot)
@@ -111,5 +111,5 @@ with open('input.txt', 'r') as file:
 		distance = int(data[1])
 		move(dir,distance)
 
-tail = ropeHead.getChild(2)
+tail = ropeHead.getChild(10)
 print(len(tail.visitedPos))
