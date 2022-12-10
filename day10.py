@@ -7,6 +7,11 @@ delayTillNextInstruction = 0
 register = 1
 signalStrength = 0
 
+screen = []
+for i in range(6):
+	row = ["."] * 40
+	screen.append(row)
+
 with open('input.txt', 'r') as file:
 	for line in file:
 		signalsToProcess.put(line)
@@ -32,6 +37,9 @@ def processCycle():
 			valToAdd = int(data[1])
 			delayTillNextInstruction = 2
 
+	if register >= -1 and register <= 40:
+		if abs(cycleNumber%40 - register) <= 1:
+			screen[int(cycleNumber/40)][cycleNumber%40] = "#"
 	#print(register)
 
 valToAdd = 0
@@ -41,3 +49,8 @@ processCycle()
 processCycle()
 
 print(signalStrength)
+
+for row in screen:
+	for i in row:
+		print(i, end="")
+	print()
