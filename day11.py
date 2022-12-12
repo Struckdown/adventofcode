@@ -25,8 +25,8 @@ class Monkey():
 			return
 		item = self.items[0]
 		item = int(eval(str(self.operation)))
-		item = int(item/3)	# Q1
-		#item %= 96577	# Q2???
+		#item = int(item/3)	# Q1
+		item %= 9699690		# Q2
 		self.items[0] = item
 		self.inspectCount += 1
 
@@ -97,9 +97,8 @@ for monkey in monkeys:
 	monkB = getMonkey(monkey.monkeyB)
 	monkey.setMonkeys(monkA, monkB)
 
-round = 0
 roundLimit = 10000
-for i in range(roundLimit):
+for i in range(1, roundLimit+1):
 	for monkey in monkeys:
 		monkey.activateMonkey()
 	if i % 1000 == 0:
