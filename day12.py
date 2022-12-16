@@ -45,23 +45,28 @@ class Grid():
 		q = queue.SimpleQueue()
 
 		curPos = startingPos
-		q.put(curPos)	# add first pos
+		q.put(curPos)		# add first pos
 
 		while q.qsize() > 0:
-			#self.print()
 			curPos = q.get()
-			curDepth = self.depthGrid[curPos[0]][curPos[1]]
 			curLetter = self.grid[curPos[0]][curPos[1]]
+			curDepth = self.depthGrid[curPos[0]][curPos[1]]
 
 			# try to move in all directions
 			directions = [(-1,0), (1,0), (0,-1), (0,1)]
 			for dir in directions:
 				newPos = (curPos[0] + dir[0], curPos[1] + dir[1])
+				try:
+					newLetter = self.grid[newPos[0]][newPos[1]]
+				except:
+					newLetter = "b"
 				if self.canTravel(curPos, newPos):
 					newPosPrevDepth = self.depthGrid[newPos[0]][newPos[1]]
 					prevDepth = 9999 if newPosPrevDepth == 0 else newPosPrevDepth
 					newDepthIsLower = curDepth + 1 < prevDepth
 					self.depthGrid[newPos[0]][newPos[1]] = min(curDepth + 1, prevDepth)
+					if newLetter == "a":
+						self.depthGrid[newPos[0]][newPos[1]] = 1		# override with 1 if it's 'a'
 					if newDepthIsLower:
 						q.put(newPos)
 		return self.depthGrid[curPos[0]][curPos[1]]
@@ -97,5 +102,6 @@ print(len(grid), len(grid[0]))
 
 Grid = Grid(grid, depthGrid)
 Grid.solve(startPos)
-ans = Grid.depthGrid[destinationPosition[0]][destinationPosition[1]]
+
+ans = Grid.depthGrid[destinationPosition[0]][destinationPosition[1]] - 1
 print(ans)
