@@ -2,7 +2,7 @@
 import math
 
 world = []
-startOffset = 400
+highestY = 0
 for i in range(1000):
 	row = []
 	for j in range(1000):
@@ -10,13 +10,15 @@ for i in range(1000):
 	world.append(row)
 
 def addRock(newRockPositions):
-	global world
+	global world, highestY
 	newRockPositions = newRockPositions.replace("\n","")
 	rocks = newRockPositions.split(" -> ")
 
 	prevRock = rocks[0].split(",")
 	for r in range(len(prevRock)):
 		prevRock[r] = int(prevRock[r])
+	if prevRock[1] > highestY:
+		highestY = prevRock[1]
 	first = True
 	for rock in rocks:
 		if first:
@@ -25,6 +27,8 @@ def addRock(newRockPositions):
 		newRock = rock.split(",")
 		for r in range(len(newRock)):
 			newRock[r] = int(newRock[r])
+		if newRock[1] > highestY:
+			highestY = newRock[1]
 
 		# see if new rock starting
 		if prevRock[0] != newRock[0] and prevRock[1] != newRock[1]:
@@ -53,6 +57,9 @@ def simulateSand():
 
 		curPos = (500, 0)
 		hitMax = False
+		if world[curPos[0]][curPos[1]] == "+":
+			return sandDropped
+
 		while True:
 			spacesToCheck = [(0, 1), (-1, 1), (1, 1)]
 			freeSpace = False
@@ -84,6 +91,10 @@ def printWorld():
 with open('input.txt', 'r') as file:
 	for line in file:
 		addRock(line)
+
+highestY += 2
+newRock = "0,highestY -> 980,highestY".replace("highestY", str(highestY))
+addRock(newRock)
 
 # TODO
 # Simulate falling sand
